@@ -50,7 +50,9 @@
             }
 
             // login form
-            print " <form>
+            print " <form action=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/index.php\"
+                          method=\"GET\">
+                        <strong>Login:&nbsp;&nbsp;</strong>
                         <select name=\"username\">";
             for($rowNum = 0; $rowNum < mysqli_num_rows($login_names); $rowNum++) {
                 $row = mysqli_fetch_assoc($login_names);
@@ -61,6 +63,10 @@
                 print "</option>";
             }
             print "     </select>
+                        <input type=\"password\" 
+                               name=\"password\" 
+                               value=\"\" 
+                               size=\"12\">
                         <input type=\"SUBMIT\" value=\"Submit\" />
                     </form>";
 
