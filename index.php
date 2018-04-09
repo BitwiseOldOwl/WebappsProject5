@@ -6,19 +6,44 @@
         </title>
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
-    <body>
+    <body bgcolor="#445577">
+        <div class="centerContent">
         <?php
             print "<h1>People's Choice Awards</h1><br>";
 
+            // connect to database
             $db = mysqli_connect("james.cedarville.edu","cs3220","","cs3220")
                 or die("Error: unable to connect to database");
 
-            $query = "SELECT login_name FROM RatVan_PCA_Student;";
+            // query for list of student login names
+            $query = "SELECT student_id, login_name
+                      FROM RatVan_PCA_Student;";
             $login_names = mysqli_query($db, $query)
                 or die("Error: unsuccessful query");
  
+            // query for list of awards to display in the main table
+            $query = "SELECT project_id, award_type, 
+                             Student.student_id AS student_id, login_name
+                      FROM RatVan_PCA_Award AS Award,
+                           RatVan_PCA_StudentTeam AS StudentTeam,
+                           RatVan_PCA_Student AS Student
+                      WHERE Award.team_id = StudentTeam.team_id
+                        AND StudentTeam.student_id = Student.student_id;";
+            $awards = mysqli_query($db, $query)
+                or die("Error: unsuccessful query");
+
+            // close database connection
             mysqli_close($db);
 
+            // process the results of the 'awards' database query and populate
+            // a multidimensional array which represents the awards that should
+            // be shown in the main table on this page
+            for($rowNum = 0; $rowNum < mysqli_num_rows($awards); $rowNum++) {
+                $row = mysqli_fetch_assoc($awards);
+                $awardTable[$row["student_id"]][$row["project_id"]] = $row["award_type"];
+            }
+
+            // table header row
             print " <table>
                         <tr>
                             <th></th>
@@ -37,12 +62,18 @@
                 print "<td>";
                 print htmlspecialchars($row["login_name"]);
                 print "</td>";
+                for($colNum = 1; $colNum < 8; $colNum++) {
+                    print "<td>";
+                    print $awardTable[$row["student_id"]][$colNum];
+                    print "</td>";
+                }
                 print "</tr>";
             }
 
             print "</table>";
 
         ?>
+        </div>
     </body>
 </html>
 
