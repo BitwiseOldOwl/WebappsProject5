@@ -9,8 +9,6 @@
     <body bgcolor="#445577">
         <div class="centerContent">
         <?php
-            print "<h1>People's Choice Awards</h1><br>";
-
             // connect to database
             $db = mysqli_connect("james.cedarville.edu","cs3220","","cs3220")
                 or die("Error: unable to connect to database");
@@ -48,6 +46,20 @@
                 $row = mysqli_fetch_assoc($awards);
                 $awardTable[$row["student_id"]][$row["project_id"]] = $row["award_type"];
             }
+
+            ////
+            //// Start of content
+            ////
+            print "<h1>People's Choice Awards</h1>";
+            print "<h3>
+                <a href=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/index.php\">HOME</a>
+                &nbsp;|&nbsp;
+                <a href=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/voting.php\">VOTING</a>
+                &nbsp;|&nbsp;
+                <a href=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/results.php\">RESULTS</a>
+                &nbsp;|&nbsp;
+                <a href=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/admin.php\">ADMIN</a>
+                    </h3>";
 
             // login form
             print " <form action=\"http://judah.cedarville.edu/~ratkey/WebappsProject5/index.php\"
