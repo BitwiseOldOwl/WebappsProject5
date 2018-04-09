@@ -16,9 +16,15 @@
                 or die("Error: unable to connect to database");
 
             // query for list of student login names
-            $query = "SELECT student_id, login_name
+            $query = "SELECT login_name
                       FROM RatVan_PCA_Student;";
             $login_names = mysqli_query($db, $query)
+                or die("Error: unsuccessful query");
+
+            // query for list of student login names and student IDs
+            $query = "SELECT student_id, login_name
+                      FROM RatVan_PCA_Student;";
+            $login_name_and_id = mysqli_query($db, $query)
                 or die("Error: unsuccessful query");
  
             // query for list of awards to display in the main table
@@ -43,6 +49,22 @@
                 $awardTable[$row["student_id"]][$row["project_id"]] = $row["award_type"];
             }
 
+            // login form
+            print " <form>
+                        <select name=\"username\">";
+            for($rowNum = 0; $rowNum < mysqli_num_rows($login_names); $rowNum++) {
+                $row = mysqli_fetch_assoc($login_names);
+                print "<option value=\"";
+                print $row["login_name"];
+                print "\">";
+                print $row["login_name"];
+                print "</option>";
+            }
+            print "     </select>
+                        <input type=\"SUBMIT\" value=\"Submit\" />
+                    </form>";
+
+
             // table header row
             print " <table>
                         <tr>
@@ -56,8 +78,8 @@
                             <th>Project 7</th>
                         </tr>";
 
-            for($rowNum = 0; $rowNum < mysqli_num_rows($login_names); $rowNum++) {
-                $row = mysqli_fetch_assoc($login_names);
+            for($rowNum = 0; $rowNum < mysqli_num_rows($login_name_and_id); $rowNum++) {
+                $row = mysqli_fetch_assoc($login_name_and_id);
                 print "<tr>";
                 print "<td>";
                 print htmlspecialchars($row["login_name"]);
