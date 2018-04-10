@@ -9,25 +9,38 @@
     <body bgcolor="#445577">
         <div class="centerContent">
         <?php
+            // which project to view voting results from
+            $whichProject = 1; 
+
             // connect to database
             $db = mysqli_connect("james.cedarville.edu","cs3220","","cs3220")
                 or die("Error: unable to connect to database");
 
+            /*
             // query for list of student login names and student IDs
             $query = "SELECT student_id, login_name
                       FROM RatVan_PCA_Student;";
             $login_name_and_id = mysqli_query($db, $query)
                 or die("Error: unsuccessful query");
+            */
  
             // query for list of awards to display in the main table
-            $query = "SELECT project_id, award_type, 
-                             Student.student_id AS student_id, login_name
-                      FROM RatVan_PCA_Award AS Award,
-                           RatVan_PCA_StudentTeam AS StudentTeam,
-                           RatVan_PCA_Student AS Student
-                      WHERE Award.team_id = StudentTeam.team_id
-                        AND StudentTeam.student_id = Student.student_id;";
-            $awards = mysqli_query($db, $query)
+            $query = "SELECT q1.team_id, team_members, vote_count FROM
+                        (SELECT team_id, SUM(vote_value) as vote_count
+                        FROM RatVan_PCA_Vote
+                        WHERE project_id=$whichProject
+                        GROUP BY team_id)
+                          as q1,
+                        (SELECT team_id, GROUP_CONCAT(login_name SEPARATOR ', ') as team_members
+                        FROM RatVan_PCA_StudentTeam as StudentTeam, RatVan_PCA_Student as Student
+                        WHERE StudentTeam.student_id = Student.student_id
+                          AND team_id in (SELECT team_id
+                                          FROM RatVan_PCA_Team
+                                          WHERE project_id=$whichProject)
+                        GROUP BY team_id)
+                          as q2
+                      WHERE q1.team_id=q2.team_id;";
+            $votingResults = mysqli_query($db, $query)
                 or die("Error: unsuccessful query");
 
             // close database connection
