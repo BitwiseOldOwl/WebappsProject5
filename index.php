@@ -88,9 +88,10 @@ session_start();
                         <input type=\"SUBMIT\" value=\"Submit\" />
                     </form>";
           
+          //Login
           if( isset($_POST['login'] ) && !empty( $_POST['username'] ) && !empty( $_POST['password'] ) )
           {
-            if( /*pwd && username chk*/ )
+            if( /*pwd && username chk*/ ( $_POST['username'] == 'coyote' ) && ( $_POST['password'] == 'test' ) )
             {
               $_SESSION['valid'] = true;
               $_SESSION['timeout'] = time();
