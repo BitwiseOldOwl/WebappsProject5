@@ -1,3 +1,8 @@
+<?php
+ob_start();
+session_start();
+?>
+
 <!-- index.php -->
 <html>
     <head>
@@ -5,6 +10,7 @@
             RatVan PCA
         </title>
         <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link href = "css/bootstrap.min.css" rel = "stylesheet">
     </head>
     <body bgcolor="#445577">
         <div class="centerContent">
@@ -81,6 +87,22 @@
                                size=\"12\">
                         <input type=\"SUBMIT\" value=\"Submit\" />
                     </form>";
+          
+          if( isset($_POST['login'] ) && !empty( $_POST['username'] ) && !empty( $_POST['password'] ) )
+          {
+            if( /*pwd && username chk*/ )
+            {
+              $_SESSION['valid'] = true;
+              $_SESSION['timeout'] = time();
+              $_SESSION['username'] = /*'username'*/;
+              
+              echo 'Login valid';
+            }
+            else
+            {
+              $msg = 'Incorrect username or password';
+            }
+          }
 
 
             // table header row

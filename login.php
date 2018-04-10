@@ -96,7 +96,8 @@ session_start();
       {
 
         if ($_POST['username'] == 'tutorialspoint' && 
-            $_POST['password'] == '1234') {
+            $_POST['password'] == '1234') 
+        {
           $_SESSION['valid'] = true;
           $_SESSION['timeout'] = time();
           $_SESSION['username'] = 'tutorialspoint';
