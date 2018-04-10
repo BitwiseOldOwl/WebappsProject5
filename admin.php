@@ -22,8 +22,7 @@
 
             // query to get list of projects that are closed or open
             $query = "SELECT *
-                      FROM RatVan_PCA_Project
-                      WHERE status IN ('closed','open');";
+                      FROM RatVan_PCA_Project;";
             $listOfProjects = mysqli_query($db, $query)
                 or die("Error: unsuccessful query");
  
