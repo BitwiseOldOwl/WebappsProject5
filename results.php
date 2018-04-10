@@ -77,7 +77,8 @@
                 print htmlspecialchars($row["project_id"]);
                 print "</option>";
             }
-            print "    <input type=\"SUBMIT\" value=\"View\" />
+            print "    </select>
+                       <input type=\"SUBMIT\" value=\"View\" />
                     </form>";
 
 
