@@ -89,9 +89,16 @@ session_start();
                     </form>";
           
           //Login
-          if( isset($_POST['login'] ) && !empty( $_POST['username'] ) && !empty( $_POST['password'] ) )
-          {
-            if( /*pwd && username chk*/ ( $_POST['username'] == 'coyote' ) && ( $_POST['password'] == 'test' ) )
+          <?php
+            // which project to view voting results from
+            //$whichProject = 1; 
+            if ( isset( $_POST['password'] ) ) 
+            {
+              $pwd = filter_input( INPUT_GET, "password", FILTER_SANITIZE_STRING );
+            } 
+
+          
+            if( /*pwd && username chk*/ $pwd == 'test' )
             {
               $_SESSION['valid'] = true;
               $_SESSION['timeout'] = time();
@@ -103,7 +110,6 @@ session_start();
             {
               $msg = 'Incorrect username or password';
             }
-          }
 
 
             // table header row
