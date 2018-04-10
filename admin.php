@@ -68,7 +68,9 @@
                             <option value=\"new\">new</option>
                         </select>
                         <br><br>";
-            print "    <input type=\"SUBMIT\" value=\"Set Status\" />
+            print "    <input type=\"radio\" name=\"adminAction\"
+                              value=\"true\" checked style=\"display: none\">
+                       <input type=\"SUBMIT\" value=\"Set Status\" />
                     </form>";
 
         ?>
